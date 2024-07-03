@@ -35,13 +35,13 @@ const AllPatients = () => {
     patient.email.toLowerCase().includes(searchTerm.toLowerCase())
 
     );
-    console.log("Filtered List:", filteredList);
+   
     setFilteredPatients(filteredList);
   }, [searchTerm, allPatients]);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
-    console.log(e.target.value)
+    
   };
 
   const handleDelete = async (patientId) => {

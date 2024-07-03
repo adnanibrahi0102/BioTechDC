@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from '../config/axiosInstance';
+import {toast} from 'react-toastify';
 
 const AllReports = () => {
   const [reports, setReports] = useState([]);
@@ -27,12 +28,29 @@ const AllReports = () => {
       setLoading(true);
       const response = await axiosInstance.post(`/reports/generate-report/${reportId}`);
       setLoading(false);
+      toast.success("Report generated and sent successfully!");
       console.log("Report sent:", response);
     } catch (error) {
       console.error("Error generating or sending report:", error);
       setLoading(false);
+      toast.error("Error generating or sending report!");
     }
   };
+
+  const handleDeleteReport = async(reportId)=>{
+    try {
+      setLoading(true);
+      await axiosInstance.delete(`/reports/delete-report/${reportId}`);
+      setReports(reports.filter(report=>report._id!==reportId));
+      setLoading(false);
+      toast.success("Report deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting report:", error);
+      setLoading(false);
+      toast.error("Error deleting report!");
+      
+    }
+  }
 
 
   if (loading) return <p className="text-center">Loading...</p>;
@@ -91,12 +109,10 @@ const AllReports = () => {
 
             </button>
 
-            <button className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75">
+            <button
+            onClick={()=>handleDeleteReport(report._id)} 
+            className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75">
               Delete
-            </button>
-
-            <button className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
-              Update
             </button>
           </div>
 

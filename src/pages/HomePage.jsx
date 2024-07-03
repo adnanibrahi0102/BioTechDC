@@ -55,8 +55,8 @@ const HomePage = () => {
     <div className="max-w-full mx-auto px-4 py-8 bg-indigo-950">
       <HeroParallax products={products} />
       <div className="text-center">
-        <h1 className="text-3xl font-bold text-black mb-4 mt-2">About BioTech Diagnostic Center</h1>
-        <p className="text-lg text-gray-600 mb-8">
+        <h1 className="text-3xl font-bold text-neutral-100 mb-4 mt-2">About BioTech Diagnostic Center</h1>
+        <p className="text-lg text-neutral-100 mb-8">
           Welcome to BioTech Diagnostic Center, where we are dedicated to delivering accurate and reliable diagnostic services. Our state-of-the-art facilities and experienced medical professionals ensure high-quality care for all patients.
         </p>
       </div>
