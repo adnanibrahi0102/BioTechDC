@@ -19,6 +19,7 @@ const AllPatients = () => {
           `/patients/getAllPatients`,
         );
         setAllPatients(response.data.patients);
+        setFilteredPatients(response.data.patients);
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -30,13 +31,17 @@ const AllPatients = () => {
 
   useEffect(() => {
     const filteredList = allPatients.filter((patient) =>
-      patient.name.toLowerCase()||patient.email.toLowerCase().includes(searchTerm.toLowerCase())
+      patient.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    patient.email.toLowerCase().includes(searchTerm.toLowerCase())
+
     );
+    console.log("Filtered List:", filteredList);
     setFilteredPatients(filteredList);
   }, [searchTerm, allPatients]);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
+    console.log(e.target.value)
   };
 
   const handleDelete = async (patientId) => {
