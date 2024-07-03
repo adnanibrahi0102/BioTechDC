@@ -16,6 +16,7 @@ const GenerateReport = () => {
         setLoading(true);
         const response = await axiosInstance.get(`/patients/getPatient/${patientId}`);
         setPatient(response.data.patient);
+        console.log(response.data)
         setLoading(false);
       } catch (error) {
         console.error("Error fetching patient:", error);
