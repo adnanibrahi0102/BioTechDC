@@ -1,7 +1,7 @@
+
 import React, { useEffect, useState } from "react";
-import { BASE_URL } from "../config/baseUrl";
-import { toast } from "react-toastify";
-import axiosInstance from "../config/axiosInstance";
+import axiosInstance from '../config/axiosInstance'
+import {toast} from 'react-toastify'
 
 const CreatePatient = () => {
   const [patientData, setPatientData] = useState({
@@ -24,8 +24,8 @@ const CreatePatient = () => {
     const getAllTests = async () => {
       try {
         setLoading(true);
-        const response = await axiosInstance.get("/tests/getAllTests");
-        setDbTests(response.data.tests); // Assuming response.data.tests is an array of tests
+        const response = await axiosInstance.get(`/tests/getAllTests`);
+        setDbTests(response.data.test);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching tests:", error);
@@ -61,12 +61,15 @@ const CreatePatient = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await axiosInstance.post("/patients/createPatient", {
-        ...patientData,
-        age: parseInt(patientData.age), // Assuming age needs to be an integer
-        amount: parseFloat(patientData.amount), // Assuming amount needs to be a float
-        paymentStatus: patientData.paymentStatus === "true", // Assuming paymentStatus is a boolean
-      });
+      const response = await axiosInstance.post(`/patients/createPatient`,
+        {
+          ...patientData,
+          age: parseInt(patientData.age), 
+          amount: parseFloat(patientData.amount), 
+          paymentStatus: patientData.paymentStatus === "true", 
+        },
+        
+      );
       
       setPatientData({
         name: "",
