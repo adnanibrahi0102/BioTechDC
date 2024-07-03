@@ -1,7 +1,6 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { BASE_URL } from "../config/baseUrl";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from '../config/axiosInstance';
 
 const AllReports = () => {
   const [reports, setReports] = useState([]);
@@ -12,12 +11,8 @@ const AllReports = () => {
     const getAllReports = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
-          `${BASE_URL}/api/v1/reports/getAllReports`,
-          { withCredentials: true }
-        );
+        const response = await axiosInstance.get('/reports/getAllReports');
         setReports(response.data.reports);
-        console.log(response.data.reports);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching reports:", error);
@@ -30,17 +25,15 @@ const AllReports = () => {
   const generateAndSendReport = async (reportId) => {
     try {
       setLoading(true);
-      const response = await axios.post(
-        `${BASE_URL}/api/v1/reports/generate-report/${reportId}`,
-        { withCredentials: true }
-      );
+      const response = await axiosInstance.post(`/reports/generate-report/${reportId}`);
       setLoading(false);
-      console.log("report sent", response);
+      console.log("Report sent:", response);
     } catch (error) {
-      console.log(error);
+      console.error("Error generating or sending report:", error);
       setLoading(false);
     }
   };
+
 
   if (loading) return <p className="text-center">Loading...</p>;
 

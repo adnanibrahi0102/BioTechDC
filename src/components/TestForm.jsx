@@ -1,9 +1,8 @@
-import axios from "axios";
+import axiosInstance from "axios";
 import React, { useState } from "react";
 import { BASE_URL } from "../config/baseUrl";
 import { Link } from "react-router-dom";
-import TestFormComponent from "./TestFormComponent";
-import {toast} from 'react-toastify';
+import { toast } from "react-toastify";
 
 const TestForm = () => {
   const [testData, setTestData] = useState({
@@ -16,17 +15,25 @@ const TestForm = () => {
   });
   const [loading, setLoading] = useState(false);
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setTestData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   const handleTestSubmission = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await axios.post(
+      const response = await axiosInstance.post(
         `${BASE_URL}/api/v1/tests/createTest`,
         testData,
         { withCredentials: true }
       );
       setLoading(false);
-      toast.success('Test created successfully!')
+      toast.success("Test created successfully!");
       setTestData({
         name: "",
         description: "",
@@ -37,8 +44,8 @@ const TestForm = () => {
       });
     } catch (error) {
       setLoading(false);
-      toast.error('Error while creating test!')
-      console.log(error);
+      toast.error("Error while creating test!");
+      console.error("Error creating test:", error);
     }
   };
 

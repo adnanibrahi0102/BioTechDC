@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { BASE_URL } from "../config/baseUrl";
+import axiosInstance from '../config/axiosInstance'
 import { useNavigate } from "react-router-dom";
 import TestFormComponent from "./TestFormComponent";
 import { useParams } from "react-router-dom";
@@ -23,9 +22,7 @@ const UpdateTest = () => {
     const fetchTestData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`${BASE_URL}/api/v1/tests/getTest/${testId}`, {
-          withCredentials: true,
-        });
+        const response = await axiosInstance.get(`/tests/getTest/${testId}`);
         setTestData(response.data.test);
         setLoading(false);
       } catch (error) {
@@ -42,9 +39,7 @@ const UpdateTest = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      await axios.patch(`${BASE_URL}/api/v1/tests/updateTest/${testId}`, testData, {
-        withCredentials: true,
-      });
+      await axiosInstance.patch(`/tests/updateTest/${testId}`, testData);
       setLoading(false);
       toast.success("Test updated successfully")
       navigate("/all-tests");

@@ -1,7 +1,6 @@
-import axios from "axios";
+
 import React, { useEffect, useState } from "react";
 import axiosInstance from '../config/axiosInstance'
-import { BASE_URL } from "../config/baseUrl";
 import { useNavigate } from "react-router-dom";
 import {toast} from 'react-toastify';
 
@@ -16,12 +15,11 @@ const AllPatients = () => {
     const getAllPatients = async () => {
       try {
         setLoading(true);
-        const response = await axiosInstance.get(
-          `/patients/getAllPatients`);
+        const response = await axiosInstance.get('/patients/getAllPatients');
         setAllPatients(response.data.patients);
         setLoading(false);
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching all patients:", error);
         setLoading(false);
       }
     };
@@ -30,7 +28,8 @@ const AllPatients = () => {
 
   useEffect(() => {
     const filteredList = allPatients.filter((patient) =>
-      patient.name.toLowerCase()||patient.email.toLowerCase().includes(searchTerm.toLowerCase())
+      patient.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      patient.email.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredPatients(filteredList);
   }, [searchTerm, allPatients]);
@@ -42,21 +41,17 @@ const AllPatients = () => {
   const handleDelete = async (patientId) => {
     try {
       setLoading(true);
-      await axios.delete(
-        `${BASE_URL}/api/v1/patients/deletePatient/${patientId}`,
-        { withCredentials: true }
-      );
-      setAllPatients(
-        allPatients.filter((patient) => patient._id !== patientId)
-      );
+      await axiosInstance.delete(`/patients/deletePatient/${patientId}`);
+      setAllPatients(allPatients.filter((patient) => patient._id !== patientId));
       toast.success("Patient deleted successfully!");
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      console.error("Error deleting patient:", error);
       toast.error("Error deleting patient!");
       setLoading(false);
     }
   };
+
 
   const handleGenerateReport = (patientId) => {
     navigate(`/generate-report/${patientId}`);

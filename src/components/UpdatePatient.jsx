@@ -1,6 +1,5 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { BASE_URL } from "../config/baseUrl";
+import axiosInstance from '../config/axiosInstance'
 import { useNavigate, useParams } from "react-router-dom";
 import {toast} from 'react-toastify';
 
@@ -21,9 +20,8 @@ const UpdatePatient = () => {
     const getPatientDetails = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
-          `${BASE_URL}/api/v1/patients/getPatient/${patientId}`,
-          { withCredentials: true }
+        const response = await axiosInstance.get(
+          `/patients/getPatient/${patientId}`,
         );
         const { phone, tests, amount, paymentStatus } = response.data.patient;
         setPatientData({
@@ -41,9 +39,8 @@ const UpdatePatient = () => {
 
     const getAllTests = async () => {
       try {
-        const response = await axios.get(
-          `${BASE_URL}/api/v1/tests/getAllTests`,
-          { withCredentials: true }
+        const response = await axiosInstance.get(
+          `/tests/getAllTests`,
         );
         setDbTests(response.data.test);
       } catch (error) {
@@ -80,15 +77,14 @@ const UpdatePatient = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      await axios.patch(
-        `${BASE_URL}/api/v1/patients/updatePatient/${patientId}`,
+      await axiosInstance.patch(
+        `/patients/updatePatient/${patientId}`,
         {
           phone: patientData.phone,
           tests: patientData.tests,
           amount: parseFloat(patientData.amount),
           paymentStatus: patientData.paymentStatus === "true",
-        },
-        { withCredentials: true }
+        }
       );
       setLoading(false);
       toast.success("Patient updated successfully!");

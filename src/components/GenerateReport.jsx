@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axiosInstance from '../config/axiosInstance';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { BASE_URL } from '../config/baseUrl';
@@ -7,21 +7,18 @@ const GenerateReport = () => {
   const { patientId } = useParams();
   const [patient, setPatient] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [reports, setReports] = useState([
-    { result: '', unit: '', testIds: [] } // Initial empty report
-  ]);
-  const navigate = useNavigate()
+  const [reports, setReports] = useState([{ result: '', unit: '', testIds: [] }]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getPatient = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`${BASE_URL}/api/v1/patients/getPatient/${patientId}`, { withCredentials: true });
-        console.log(response.data.patient)
+        const response = await axiosInstance.get(`/patients/getPatient/${patientId}`);
         setPatient(response.data.patient);
         setLoading(false);
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching patient:", error);
         setLoading(false);
       }
     };
@@ -58,10 +55,10 @@ const GenerateReport = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post(`${BASE_URL}/api/v1/reports/create-report/${patientId}`, { reports }, { withCredentials: true });
-      navigate("/all-reports")
+      const response = await axiosInstance.post(`/reports/create-report/${patientId}`, { reports });
+      navigate('/all-reports');
     } catch (error) {
-      console.error(error);
+      console.error("Error creating report:", error);
       alert("Error creating report");
     }
   };
