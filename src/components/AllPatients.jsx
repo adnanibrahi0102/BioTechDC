@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import {axiosInstance} from '../config/axiosInstance'
 import { BASE_URL } from "../config/baseUrl";
 import { useNavigate } from "react-router-dom";
 import {toast} from 'react-toastify';
@@ -15,10 +16,8 @@ const AllPatients = () => {
     const getAllPatients = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
-          `${BASE_URL}/api/v1/patients/getAllPatients`,
-          { withCredentials: true }
-        );
+        const response = await axiosInstance.get(
+          `/patients/getAllPatients`);
         setAllPatients(response.data.patients);
         setLoading(false);
       } catch (error) {
