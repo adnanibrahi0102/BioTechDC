@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../config/axiosInstance";
-import { BASE_URL } from "../config/baseUrl";
-import { FaTrash, FaPen } from "react-icons/fa";
+import { FaTrash, FaPen } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
 
 const AllTests = () => {
   const [tests, setTests] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTests = async () => {
       try {
         setLoading(true);
-        const response = await axiosInstance.get("/tests/getAllTests");
-        setTests(response.data.tests); // Assuming response.data.tests is an array of tests
+        const response = await axiosInstance.get(`/tests/getAllTests`, );
+        setTests(response.data.test);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching tests:", error);
@@ -29,7 +28,7 @@ const AllTests = () => {
   const handleDelete = async (testId) => {
     try {
       await axiosInstance.delete(`/tests/deleteTest/${testId}`);
-      setTests(tests.filter((test) => test._id !== testId));
+      setTests(tests.filter(test => test._id !== testId)); 
     } catch (error) {
       console.log(error);
     }
@@ -39,7 +38,7 @@ const AllTests = () => {
     setSearchTerm(e.target.value);
   };
 
-  const filteredTests = tests.filter((test) =>
+  const filteredTests = tests.filter(test => 
     test.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
