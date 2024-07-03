@@ -115,7 +115,7 @@ const GenerateReport = () => {
               {index > 0 && (
                 <button
                   onClick={() => handleRemoveReport(index)}
-                  className="text-red-600 hover:text-red-800 text-sm focus:outline-none"
+                  className="text-neutral-100 hover:text-neutral-500 bg-red-500 text-sm focus:outline-none"
                 >
                   Remove Report
                 </button>
