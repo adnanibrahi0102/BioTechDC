@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { BASE_URL } from "../config/baseUrl";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-
+import TestFormComponent from '../components/TestFormComponent'
 const TestForm = () => {
   const [testData, setTestData] = useState({
     name: "",
