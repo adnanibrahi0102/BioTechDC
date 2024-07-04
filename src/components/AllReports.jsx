@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axiosInstance from '../config/axiosInstance';
 import {toast} from 'react-toastify';
 
 const AllReports = () => {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const [searchTerm , setSearchTerm] = useState("");
+
 
   useEffect(() => {
     const getAllReports = async () => {
       try {
         setLoading(true);
         const response = await axiosInstance.get('/reports/getAllReports');
+        console.log(response.data.reports)
         setReports(response.data.reports);
         setLoading(false);
       } catch (error) {
@@ -52,6 +53,11 @@ const AllReports = () => {
     }
   }
 
+  const filteredReports = reports.filter(report =>{
+    return report.patient.name.toLowerCase().includes(searchTerm.toLowerCase())||
+    report.patient.email.toLowerCase().includes(searchTerm.toLowerCase())
+  })
+
 
   if (loading) return <p className="text-center">Loading...</p>;
 
@@ -60,8 +66,16 @@ const AllReports = () => {
       <h1 className="text-3xl font-bold text-center mb-6 text-blue-700">
         All Reports
       </h1>
+      <div className="flex justify-center mb-4">
+        <input
+        value={searchTerm}
+        onChange={(e)=>setSearchTerm(e.target.value)}
+         type="text" placeholder="Search by name or email "
+        className="w-full max-w-md px-4 py-2 text-lg border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out"
+        />
+      </div>
 
-      {reports.map((report, reportIndex) => (
+      {filteredReports.map((report, reportIndex) => (
         <div
           key={reportIndex}
           className="bg-white p-6 mb-8 rounded-lg shadow-md border border-gray-300"
@@ -140,13 +154,16 @@ const AllReports = () => {
               <p>
                 <strong>Units:</strong> {testReport.unit}
               </p>
-              <p>
+             
+            </div>
+          ))}
+           <p>
                 <strong>Status:</strong>{" "}
                 <span
                   className={`font-bold ${
-                    report.status === "approved"
+                    report.status === "sent"
                       ? "text-green-700"
-                      : report.status === "denied"
+                      : report.status === "pending"
                       ? "text-red-700"
                       : "text-yellow-700"
                   }`}
@@ -154,9 +171,8 @@ const AllReports = () => {
                   {report.status}
                 </span>
               </p>
-            </div>
-          ))}
         </div>
+        
       ))}
       <div className="flex justify-center space-x-4"></div>
     </div>
