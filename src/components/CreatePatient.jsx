@@ -86,7 +86,7 @@ const CreatePatient = () => {
       setLoading(false);
       toast.success("Patient created successfully!");
     } catch (error) {
-      toast.error(error.message);
+      toast.error("Error creating patient. Please try again.");
       console.error("Error creating patient:", error);
       setLoading(false);
     }
