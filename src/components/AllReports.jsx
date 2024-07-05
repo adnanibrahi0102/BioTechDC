@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from "react";
-import axiosInstance from '../config/axiosInstance';
-import {toast} from 'react-toastify';
+import axiosInstance from "../config/axiosInstance";
+import { toast } from "react-toastify";
 
 const AllReports = () => {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [searchTerm , setSearchTerm] = useState("");
-
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const getAllReports = async () => {
       try {
         setLoading(true);
-        const response = await axiosInstance.get('/reports/getAllReports');
-        console.log(response.data.reports)
+        const response = await axiosInstance.get("/reports/getAllReports");
+        console.log(response.data.reports);
         setReports(response.data.reports);
         setLoading(false);
       } catch (error) {
@@ -27,7 +26,9 @@ const AllReports = () => {
   const generateAndSendReport = async (reportId) => {
     try {
       setLoading(true);
-      const response = await axiosInstance.post(`/reports/generate-report/${reportId}`);
+      const response = await axiosInstance.post(
+        `/reports/generate-report/${reportId}`
+      );
       setLoading(false);
       toast.success("Report generated and sent successfully!");
       console.log("Report sent:", response);
@@ -38,28 +39,38 @@ const AllReports = () => {
     }
   };
 
-  const handleDeleteReport = async(reportId)=>{
+  const handleDeleteReport = async (reportId) => {
     try {
       setLoading(true);
       await axiosInstance.delete(`/reports/delete-report/${reportId}`);
-      setReports(reports.filter(report=>report._id!==reportId));
+      setReports(reports.filter((report) => report._id !== reportId));
       setLoading(false);
       toast.success("Report deleted successfully!");
     } catch (error) {
       console.error("Error deleting report:", error);
       setLoading(false);
       toast.error("Error deleting report!");
-      
     }
-  }
+  };
 
-  const filteredReports = reports.filter(report =>{
-    return report.patient.name.toLowerCase().includes(searchTerm.toLowerCase())||
-    report.patient.email.toLowerCase().includes(searchTerm.toLowerCase())
-  })
+  const filteredReports = reports.filter((report) => {
+    return (
+      report.patient.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      report.patient.email.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
 
-
-  if (loading) return <p className="text-center">Loading...</p>;
+  if (loading)
+    return (
+      <div className="flex justify-center items-center">
+        <div
+          className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full"
+          role="status"
+        >
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
 
   return (
     <div className="container mx-auto p-6">
@@ -68,10 +79,11 @@ const AllReports = () => {
       </h1>
       <div className="flex justify-center mb-4">
         <input
-        value={searchTerm}
-        onChange={(e)=>setSearchTerm(e.target.value)}
-         type="text" placeholder="Search by name or email "
-        className="w-full max-w-md px-4 py-2 text-lg border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          type="text"
+          placeholder="Search by name or email "
+          className="w-full max-w-md px-4 py-2 text-lg border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out"
         />
       </div>
 
@@ -120,12 +132,12 @@ const AllReports = () => {
               className="px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75"
             >
               {loading ? "Generating Report..." : "Send And Generate Report"}
-
             </button>
 
             <button
-            onClick={()=>handleDeleteReport(report._id)} 
-            className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75">
+              onClick={() => handleDeleteReport(report._id)}
+              className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75"
+            >
               Delete
             </button>
           </div>
@@ -154,25 +166,23 @@ const AllReports = () => {
               <p>
                 <strong>Units:</strong> {testReport.unit}
               </p>
-             
             </div>
           ))}
-           <p>
-                <strong>Status:</strong>{" "}
-                <span
-                  className={`font-bold ${
-                    report.status === "sent"
-                      ? "text-green-700"
-                      : report.status === "pending"
-                      ? "text-red-700"
-                      : "text-yellow-700"
-                  }`}
-                >
-                  {report.status}
-                </span>
-              </p>
+          <p>
+            <strong>Status:</strong>{" "}
+            <span
+              className={`font-bold ${
+                report.status === "sent"
+                  ? "text-green-700"
+                  : report.status === "pending"
+                  ? "text-red-700"
+                  : "text-yellow-700"
+              }`}
+            >
+              {report.status}
+            </span>
+          </p>
         </div>
-        
       ))}
       <div className="flex justify-center space-x-4"></div>
     </div>
