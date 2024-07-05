@@ -55,6 +55,7 @@ const Dashboard = () => {
           <p className="text-3xl text-red-500 font-bold">56</p>
         </div>
       </div>
+      <h1 className='text-center mt-4 text-red-600 text-3xl'>This is basic with hard coded data we can make it more realistic</h1>
     </div>
   );
 };
