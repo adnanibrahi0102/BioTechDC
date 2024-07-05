@@ -3,7 +3,7 @@ import AllReports from '../components/AllReports'
 
 const AllReportsPage = () => {
   return (
-    <div>
+    <div className='h-screen'>
       <AllReports/>
     </div>
   )
