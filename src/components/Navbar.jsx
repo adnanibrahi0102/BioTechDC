@@ -182,6 +182,18 @@ const Navbar = () => {
                 </li>
                 <li>
                   <NavLink
+                    to="/dashboard"
+                    className={({ isActive }) =>
+                      isActive
+                        ? `${activeClassName} block text-white hover:text-black transition duration-300 ease-in-out`
+                        : "block text-white hover:text-black transition duration-300 ease-in-out"
+                    }
+                  >
+                    Dashboard
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
                     to="/all-reports"
                     className={({ isActive }) =>
                       isActive
@@ -320,6 +332,18 @@ const Navbar = () => {
                     }
                   >
                     Manage Patients
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/dashboard"
+                    className={({ isActive }) =>
+                      isActive
+                        ? `${activeClassName} block text-white hover:text-black transition duration-300 ease-in-out`
+                        : "block text-white hover:text-black transition duration-300 ease-in-out"
+                    }
+                  >
+                    Dashboard
                   </NavLink>
                 </li>
                 <li>

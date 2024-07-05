@@ -52,7 +52,7 @@ const Dashboard = () => {
         </div>
         <div className={`bg-white p-6 rounded-lg shadow-md`}>
           <h2 className="text-lg font-semibold text-gray-800 mb-2">Reports Pending</h2>
-          <p className="text-3xl text-red-500 font-bold">Pending Count</p>
+          <p className="text-3xl text-red-500 font-bold">56</p>
         </div>
       </div>
     </div>
