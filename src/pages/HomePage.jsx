@@ -31,11 +31,6 @@ const HomePage = () => {
       thumbnail: "https://www.fau.edu/newsdesk/images/news/covid-test-ai-newsdesk.jpg",
     },
     {
-      title: "Diabetes Panel",
-      link: "",
-      thumbnail: "https://labs.360healthservices.com/wp-content/uploads/2020/12/600x282xDiabetes-Blood-Tests-1280x720-1.jpg.pagespeed.ic.SUM4-zpGOY.webp",
-    },
-    {
       title: "Allergy Testing",
       link: "",
       thumbnail: "https://www.netmeds.com/images/cms/wysiwyg/blog/2021/05/1621845082_Allergy_big_1.jpg",
