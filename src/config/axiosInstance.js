@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-    baseURL: 'https://biotechdc-backend-sysytem.onrender.com/api/v1', 
+    baseURL: 'https://biotechdc-backend-sysytem-production.up.railway.app/api/v1', 
     withCredentials: true, 
 });
 
