@@ -126,11 +126,11 @@ const Navbar = () => {
       <nav className="flex justify-between items-center py-8 lg:py-4 px-2  bg-yellow-400">
         <div className="flex items-center gap-[1ch]">
           <div className="w-5 h-5 bg-yellow-400 rounded-full" />
-          <span className="text-sm font-semibold tracking-widest">
+          <span className="text-base font-bold tracking-widest font-pacifico ">
             BioTech DC
           </span>
-        </div>
-        <div className="lg:flex hidden gap-12 text-md text-zinc-400 ">
+        </div> 
+        <div className="lg:flex hidden gap-12 text-md text-zinc-400  ">
           {navItems.map((item) => (
             <NavLink
               key={item.to}
@@ -173,7 +173,7 @@ const Navbar = () => {
           >
             <div className="flex h-full flex-col ">
               <div className="flex justify-between">
-                <h1 className="text-lg text-black">BioTech DC</h1>
+                <h1 className="text-lg font-bold text-black font-pacifico ">BioTech DC</h1>
                 <p
                   className="cursor-pointer text-md text-black"
                   onClick={toggleMenu}
