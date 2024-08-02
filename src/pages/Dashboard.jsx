@@ -40,7 +40,7 @@ const Dashboard = () => {
   const userRole = authStatus.user?.role;
 
   return (
-    <div className="mx-auto h-screen p-8 bg-yellow-100 rounded-md ">
+    <div className="mx-auto  p-8 bg-yellow-100 rounded-md ">
       <h1 className="text-3xl font-semibold text-black mb-4 p-2  uppercase">Dashboard</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className={`bg-white p-6 rounded-lg shadow-md ${inViewPatients ? 'animate-countup' : ''}`} ref={refPatients}>
