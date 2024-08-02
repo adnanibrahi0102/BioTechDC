@@ -114,7 +114,7 @@ const Navbar = () => {
   const MobileNavLink = ({ title, href, onClick }) => (
     <motion.div
       variants={mobileLinkVars}
-      className="text-5xl uppercase mb-1 text-black hover:underline"
+      className="text-3xl uppercase mb-1 text-black hover:underline"
       onClick={onClick}
     >
       <Link  onClick={toggleMenu} to={href}>{title}</Link>
