@@ -39,7 +39,7 @@ const Register = () => {
   return (
     <div className="min-h-screen flex items-center justify-center px-5 lg:px-0">
       <div className="max-w-screen-xl bg-white border shadow sm:rounded-lg flex justify-center flex-1 overflow-hidden">
-        <div className="flex-1 bg-yellow-400 text-center hidden md:flex">
+        <div className="flex-1 bg-yellow-100 text-center hidden md:flex">
           <div
             className="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat"
             style={{
@@ -47,7 +47,7 @@ const Register = () => {
             }}
           ></div>
         </div>
-        <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12 bg-yellow-100">
+        <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12 bg-yellow-400">
           <div className="flex flex-col items-center">
             <div className="text-center">
               <h1 className="text-2xl xl:text-4xl font-extrabold text-black">
@@ -97,7 +97,7 @@ const Register = () => {
                 />
                 <button
                   type="submit"
-                  className="mt-5 tracking-wide font-semibold bg-yellow-400  text-black w-full py-4 rounded-lg hover:bg-yellow-800 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                  className="mt-5 tracking-wide font-semibold bg-black  text-yellow-400 w-full py-4 rounded-lg hover:bg-yellow-800 hover:text-black transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
                 >
                   <svg
                     className="w-6 h-6 -ml-2"

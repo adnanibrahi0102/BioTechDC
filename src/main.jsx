@@ -23,9 +23,12 @@ import GenerateReportPage from './pages/GenerateReportPage.jsx';
 import UpdatePatientPage from './pages/UpdatePatientPage.jsx';
 import AllReportsPage from './pages/AllReportsPage.jsx';
 
-import BookingPage from './pages/PatientPages/BookingPage.jsx'
-import BookTestPage from './pages/PatientPages/BookTestPage.jsx'
-
+import BookingPage from './pages/PatientPages/BookingPage.jsx';
+import BookTestPage from './pages/PatientPages/BookTestPage.jsx';
+import ContactPage from './pages/ContactPage.jsx';
+import AboutPage from './pages/AboutUsPage.jsx';
+import ServicesPage from './pages/ServicesPage.jsx';
+import BlogPage from './pages/BlogPage.jsx';
 
 const AdminGuard = ({ children }) => {
   const user = useSelector((state) => state.auth.user);
@@ -57,6 +60,10 @@ const router = createBrowserRouter([
       { path: '', element: <HomePage /> },
       { path: '/login', element: <LoginPage /> },
       { path: '/signup', element: <SignupPage /> },
+      {path: "/contact" , element: <ContactPage/>},
+      { path: "/about" , element: <AboutPage/>},
+      {path:"/services" , element: <ServicesPage/>},
+      {path:"/blog" , element: <BlogPage/>},
       {
         path: '/dashboard',
         element: (

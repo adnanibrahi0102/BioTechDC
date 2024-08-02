@@ -28,6 +28,11 @@ const Navbar = () => {
 
   const navItems = [
     { to: "/", label: "Home" },
+    {to:"/contact",label:"Contact Us"},
+    {to:"/about",label:"About Us"},
+    {to:"/services",label:"Services"},
+    {to:"/blog",label:"Blog"},
+
     !isAuthenticated && { to: "/login", label: "Login" },
     !isAuthenticated && { to: "/signup", label: "Signup" },
     isAuthenticated && userRole === 0 && { to: "/user/bookings", label: "Bookings" },
@@ -109,7 +114,7 @@ const Navbar = () => {
   const MobileNavLink = ({ title, href, onClick }) => (
     <motion.div
       variants={mobileLinkVars}
-      className="text-5xl uppercase text-black"
+      className="text-5xl uppercase mb-1 text-black hover:underline"
       onClick={onClick}
     >
       <Link  onClick={toggleMenu} to={href}>{title}</Link>
