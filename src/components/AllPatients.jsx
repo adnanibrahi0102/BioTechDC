@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import axiosInstance from '../config/axiosInstance'
+import axiosInstance from "../config/axiosInstance";
 import { useNavigate } from "react-router-dom";
-import {toast} from 'react-toastify';
+import { toast } from "react-toastify";
 
 const AllPatients = () => {
   const [allPatients, setAllPatients] = useState([]);
@@ -15,9 +15,7 @@ const AllPatients = () => {
     const getAllPatients = async () => {
       try {
         setLoading(true);
-        const response = await axiosInstance.get(
-          `/patients/getAllPatients`,
-        );
+        const response = await axiosInstance.get(`/patients/getAllPatients`);
         setAllPatients(response.data.patients);
         setFilteredPatients(response.data.patients);
         setLoading(false);
@@ -30,26 +28,23 @@ const AllPatients = () => {
   }, []);
 
   useEffect(() => {
-    const filteredList = allPatients.filter((patient) =>
-      patient.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    patient.email.toLowerCase().includes(searchTerm.toLowerCase())
-
+    const filteredList = allPatients.filter(
+      (patient) =>
+        patient.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        patient.email.toLowerCase().includes(searchTerm.toLowerCase())
     );
-   
+
     setFilteredPatients(filteredList);
   }, [searchTerm, allPatients]);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
-    
   };
 
   const handleDelete = async (patientId) => {
     try {
       setLoading(true);
-      await axiosInstance.delete(
-        `/patients/deletePatient/${patientId}`,
-      );
+      await axiosInstance.delete(`/patients/deletePatient/${patientId}`);
       setAllPatients(
         allPatients.filter((patient) => patient._id !== patientId)
       );
@@ -154,8 +149,9 @@ const AllPatients = () => {
               )}
               <div className="flex space-x-2">
                 <button
-                onClick={()=>navigate(`/update-patient/${patient._id}`)}
-                 className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600 transition duration-300">
+                  onClick={() => navigate(`/update-patient/${patient._id}`)}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600 transition duration-300"
+                >
                   Update
                 </button>
                 <button

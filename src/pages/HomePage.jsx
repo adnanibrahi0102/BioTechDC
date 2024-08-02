@@ -2,6 +2,7 @@ import React from 'react';
 import { HeroParallax } from '../components/ui/hero-parallax';
 import CountUp from 'react-countup';
 import { useInView } from 'react-intersection-observer';
+import Slider from '../components/Slider'
 
 const HomePage = () => {
   const products = [
@@ -47,16 +48,19 @@ const HomePage = () => {
   const [refReports, inViewReports] = useInView({ triggerOnce: true });
 
   return (
-    <div className="max-w-full mx-auto px-4 py-8 bg-indigo-950">
+    <div className="max-w-full mx-auto px-4 py-8 bg-yellow-100">
+        <Slider/>
       <HeroParallax products={products} />
+     
+       
       <div className="text-center">
-        <h1 className="text-3xl font-bold text-neutral-100 mb-4 mt-2">About BioTech Diagnostic Center</h1>
-        <p className="text-lg text-neutral-100 mb-8">
+        <h1 className="text-3xl font-bold text-black mb-4 mt-2">About BioTech Diagnostic Center</h1>
+        <p className="text-lg text-black mb-8">
           Welcome to BioTech Diagnostic Center, where we are dedicated to delivering accurate and reliable diagnostic services. Our state-of-the-art facilities and experienced medical professionals ensure high-quality care for all patients.
         </p>
       </div>
       <div className="mt-8">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">Quick Stats</h2>
+        <h2 className="text-2xl font-semibold text-black text-center mb-4">Quick Stats</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className={`bg-white shadow-md rounded-lg p-6 ${inViewPatients ? 'animate-countup' : ''}`} ref={refPatients}>
             <h3 className="text-xl font-semibold text-gray-800 mb-2">Total Patients</h3>

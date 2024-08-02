@@ -42,7 +42,7 @@ const Login = () => {
       }))
       setLoading(false);
       if(response.data.user.role ===0){
-        navigate('/user')
+        navigate('/user/bookings')
       }
       else{
         navigate('/dashboard')
@@ -57,9 +57,9 @@ const Login = () => {
   };
 
   return (
-    <div className="h-[100vh] items-center flex justify-center px-5 lg:px-0">
-      <div className="max-w-screen-xl bg-white border shadow sm:rounded-lg flex justify-center flex-1">
-        <div className="flex-1 bg-blue-900 text-center hidden md:flex">
+    <div className="h-[100vh] items-center flex justify-center px-5 lg:px-0 bg-yellow-100">
+      <div className="max-w-screen-xl bg-yellow-400 border shadow sm:rounded-lg flex justify-center flex-1">
+        <div className="flex-1 bg-yellow-200 text-black text-center hidden md:flex">
           <div
             className="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat  "
             style={{
@@ -70,10 +70,10 @@ const Login = () => {
         <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
           <div className=" flex flex-col items-center">
             <div className="text-center">
-              <h1 className="text-2xl xl:text-4xl font-extrabold text-blue-900">
+              <h1 className="text-2xl xl:text-4xl font-extrabold text-black">
                 BioTech DC
               </h1>
-              <p className="text-[12px] text-gray-500">
+              <p className="text-[12px] text-black">
                 Hey enter your details to Login
               </p>
             </div>
@@ -100,7 +100,7 @@ const Login = () => {
                 />
                 <button
                   type="submit"
-                  className="mt-5 tracking-wide font-semibold bg-blue-900 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                  className="mt-5 tracking-wide font-semibold bg-black text-yellow-400 w-full py-4 rounded-lg hover:bg-yellow-800 hover:text-black transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
                 >
                   <svg
                     className="w-6 h-6 -ml-2"
@@ -117,7 +117,7 @@ const Login = () => {
                   <span className="ml-3">{loading? 'Loading...': 'Login'}</span>
 
                 </button>
-                <p className="mt-6 text-xs text-gray-600 text-center">
+                <p className="mt-6 text-xs text-black text-center">
                   Dont't have an account?{" "}
                   <Link to="/signup">
                     <span className="text-blue-900 font-semibold">Sign Up</span>

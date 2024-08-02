@@ -103,10 +103,10 @@ export const HeroParallax = ({
 export const Header = () => {
   return (
     <div className="max-w-7xl relative mx-auto py-20 md:py-40 px-4 w-full  left-0 top-0">
-      <h1 className="text-2xl md:text-7xl font-bold text-neutral-200">
+      <h1 className="text-2xl md:text-7xl font-bold text-black">
         The BioTech <br />  Diagnostic Center
       </h1>
-      <p className="max-w-2xl text-base md:text-xl mt-8 text-neutral-200">
+      <p className="max-w-2xl text-base md:text-xl mt-8 text-black">
       We provide precise and reliable diagnostic services using state-of-the-art technologies and equipment. Our team of experienced medical professionals is passionate about delivering high-quality healthcare to all our patients.
       </p>
     </div>
@@ -148,7 +148,7 @@ export const ProductCard = ({
         />
       </a>
       <div className="absolute inset-0 h-full w-full opacity-0 group-hover/product:opacity-80 bg-black pointer-events-none"></div>
-      <h2 className="absolute bottom-4 left-4 opacity-0 group-hover/product:opacity-100 text-white">
+      <h2 className="absolute bottom-4 left-4 opacity-0 group-hover/product:opacity-100 text-yellow-500">
         {product.title}
       </h2>
     </motion.div>

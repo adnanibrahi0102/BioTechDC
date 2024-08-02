@@ -14,7 +14,6 @@ import LoginPage from './pages/LoginPage.jsx';
 import SignupPage from './pages/SignupPage.jsx';
 import HomePage from './pages/HomePage.jsx';
 import Dashboard from './pages/Dashboard.jsx';
-import UserProfile from './pages/UserProfile.jsx';
 import CreateTestPage from './pages/CreateTestPage.jsx';
 import AllTestsPage from './pages/AllTestsPage.jsx';
 import UpdateTestPage from './pages/UpdateTestPage.jsx';
@@ -23,6 +22,10 @@ import AllPatientsPage from './pages/AllPatientsPage.jsx';
 import GenerateReportPage from './pages/GenerateReportPage.jsx';
 import UpdatePatientPage from './pages/UpdatePatientPage.jsx';
 import AllReportsPage from './pages/AllReportsPage.jsx';
+
+import BookingPage from './pages/PatientPages/BookingPage.jsx'
+import BookTestPage from './pages/PatientPages/BookTestPage.jsx'
+
 
 const AdminGuard = ({ children }) => {
   const user = useSelector((state) => state.auth.user);
@@ -111,11 +114,18 @@ const router = createBrowserRouter([
         </AdminGuard>
       },
       {
-        path:"/user",
+        path:"/user/bookings",
         element:<UserGuard>
-          <UserProfile/>
+          <BookingPage/>
         </UserGuard>
-      }
+      },
+      {
+        path:"/book-test",
+        element:<UserGuard>
+          <BookTestPage/>
+        </UserGuard>
+      },
+      
     ],
   },
 ]);

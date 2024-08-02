@@ -3,8 +3,9 @@ import CreatePatient from '../components/CreatePatient'
 
 const CreatePatientPage = () => {
   return (
-    <div>
+    <div >
       <CreatePatient/>
+      
     </div>
   )
 }

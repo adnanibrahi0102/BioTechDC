@@ -2,376 +2,210 @@ import React, { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/authSlice";
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
+import { AnimatePresence, motion } from "framer-motion";
+
 
 const Navbar = () => {
   const authStatus = useSelector((state) => state.auth);
   const isAuthenticated = authStatus.refreshToken;
   const userRole = authStatus.user?.role;
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const toggleMenu = () => {
-    setIsOpen(!isOpen);
+    setOpen((prevOpen) => !prevOpen);
   };
 
   const handleLogout = () => {
     dispatch(logout());
-    localStorage.removeItem("auth")
+    localStorage.removeItem("auth");
     navigate("/login");
-    toast.success('Logged out successfully', {autoClose: 3000});
+    toast.success('Logged out successfully', { autoClose: 3000 });
   };
 
-  const activeClassName = "text-black font-bold";
+  const navItems = [
+    { to: "/", label: "Home" },
+    !isAuthenticated && { to: "/login", label: "Login" },
+    !isAuthenticated && { to: "/signup", label: "Signup" },
+    isAuthenticated && userRole === 0 && { to: "/user/bookings", label: "Bookings" },
+    isAuthenticated && userRole === 0 && { to: "/book-test", label: "Book Test" },
+    isAuthenticated && userRole ===1 && {to:"/dashboard", label: "Dashboard"}
+  ].filter(Boolean);
+
+  const renderNavItems = () => (
+    navItems.map((item) => (
+      <li key={item.to}>
+        <NavLink
+          to={item.to}
+          className={({ isActive }) =>
+            isActive
+              ? "text-black font-bold transition duration-300 ease-in-out"
+              : "text-gray-300 hover:text-black transition duration-300 ease-in-out"
+          }
+        >
+          {item.label}
+        </NavLink>
+      </li>
+    ))
+  );
+
+  const menuVars = {
+    initial: {
+      scaleY: 0,
+    },
+    animate: {
+      scaleY: 1,
+      transition: {
+        duration: 0.5,
+        ease: [0.12, 0, 0.39, 0],
+      },
+    },
+    exit: {
+      scaleY: 0,
+      transition: {
+        delay: 0.5,
+        duration: 0.5,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    },
+  };
+
+  const containerVars = {
+    initial: {
+      transition: {
+        staggerChildren: 0.09,
+        staggerDirection: -1,
+      },
+    },
+    open: {
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.09,
+        staggerDirection: 1,
+      },
+    },
+  };
+
+  const mobileLinkVars = {
+    initial: {
+      y: "30vh",
+      transition: {
+        duration: 0.5,
+        ease: [0.37, 0, 0.63, 1],
+      },
+    },
+    open: {
+      y: 0,
+      transition: {
+        ease: [0, 0.55, 0.45, 1],
+        duration: 0.7,
+      },
+    },
+  };
+
+  const MobileNavLink = ({ title, href, onClick }) => (
+    <motion.div
+      variants={mobileLinkVars}
+      className="text-5xl uppercase text-black"
+      onClick={onClick}
+    >
+      <Link  onClick={toggleMenu} to={href}>{title}</Link>
+    </motion.div>
+  );
 
   return (
-    <nav className="bg-blue-900 shadow-md">
-      <div className="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center">
-        <div className="flex items-center">
-          <Link to="/" className="text-lg font-semibold text-white">
-          BioTech DC
-          </Link>
+    <header>
+      <nav className="flex justify-between items-center py-8 lg:py-4 px-2  bg-yellow-400">
+        <div className="flex items-center gap-[1ch]">
+          <div className="w-5 h-5 bg-yellow-400 rounded-full" />
+          <span className="text-sm font-semibold tracking-widest">
+            BioTech DC
+          </span>
         </div>
-        <div className="md:hidden">
-          <button
-            onClick={toggleMenu}
-            className="text-gray-200 focus:outline-none focus:text-gray-400"
-            aria-label="Toggle menu"
-          >
-            <svg
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+        <div className="lg:flex hidden gap-12 text-md text-zinc-400 ">
+          {navItems.map((item) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              className={({ isActive }) =>
+                isActive
+                  ? "text-black font-bold transition duration-300 ease-in-out"
+                  : "text-gray-800 hover:text-black transition duration-300 ease-in-out"
+              }
             >
-              {isOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              )}
-            </svg>
-          </button>
+              {item.label}
+            </NavLink>
+          ))}
+          {isAuthenticated && (
+            <button
+              onClick={handleLogout}
+              className="text-gray-800 hover:text-black transition duration-300 ease-in-out"
+            >
+              Logout
+            </button>
+
+          )}
+          
         </div>
-        <div className="hidden md:flex md:items-center">
-          <ul className="flex space-x-4">
-            <li>
-              <NavLink
-                to="/"
-                className={({ isActive }) =>
-                  isActive
-                    ? `${activeClassName} text-white hover:text-black transition duration-300 ease-in-out`
-                    : "text-white hover:text-black transition duration-300 ease-in-out"
-                }
+        <div
+          className="cursor-pointer lg:hidden text-md text-black"
+          onClick={toggleMenu}
+        >
+          Menu
+        </div>
+      </nav>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            variants={menuVars}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="fixed left-0 top-0 w-full h-screen origin-top bg-yellow-400 text-black p-10 z-10"
+          >
+            <div className="flex h-full flex-col ">
+              <div className="flex justify-between">
+                <h1 className="text-lg text-black">BioTech DC</h1>
+                <p
+                  className="cursor-pointer text-md text-black"
+                  onClick={toggleMenu}
+                >
+                  Close
+                </p>
+              </div>
+              <motion.div
+                variants={containerVars}
+                initial="initial"
+                animate="open"
+                exit="initial"
+                className="flex flex-col h-full justify-center font-lora items-center gap-4 "
               >
-                Home
-              </NavLink>
-            </li>
-            {!isAuthenticated && (
-              <>
-                <li>
-                  <NavLink
-                    to="/login"
-                    className={({ isActive }) =>
-                      isActive
-                        ? `${activeClassName} text-white hover:text-black transition duration-300 ease-in-out`
-                        : "text-white hover:text-black transition duration-300 ease-in-out"
-                    }
-                  >
-                    Login
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/signup"
-                    className={({ isActive }) =>
-                      isActive
-                        ? `${activeClassName} text-white hover:text-black transition duration-300 ease-in-out`
-                        : "text-white hover:text-black transition duration-300 ease-in-out"
-                    }
-                  >
-                    Signup
-                  </NavLink>
-                </li>
-              </>
-            )}
-            {isAuthenticated && userRole === 0 && (
-              <>
-                <li>
-                  <NavLink
-                    to="/profile"
-                    className={({ isActive }) =>
-                      isActive
-                        ? `${activeClassName} text-white hover:text-black transition duration-300 ease-in-out`
-                        : "text-white hover:text-black transition duration-300 ease-in-out"
-                    }
-                  >
-                    Profile
-                  </NavLink>
-                </li>
-                <li>
-                  <button
-                    onClick={handleLogout}
-                    className="text-white hover:text-black transition duration-300 ease-in-out"
-                  >
-                    Logout
-                  </button>
-                </li>
-              </>
-            )}
-            {isAuthenticated && userRole === 1 && (
-              <>
-                <li>
-                  <NavLink
-                    to="/create-test"
-                    className={({ isActive }) =>
-                      isActive
-                        ? `${activeClassName} text-white hover:text-black transition duration-300 ease-in-out`
-                        : "text-white hover:text-black transition duration-300 ease-in-out"
-                    }
-                  >
-                    Create Test
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/all-tests"
-                    className={({ isActive }) =>
-                      isActive
-                        ? `${activeClassName} text-white hover:text-black transition duration-300 ease-in-out`
-                        : "text-white hover:text-black transition duration-300 ease-in-out"
-                    }
-                  >
-                   Manage Tests
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/create-patient"
-                    className={({ isActive }) =>
-                      isActive
-                        ? `${activeClassName} text-white hover:text-black transition duration-300 ease-in-out`
-                        : "text-white hover:text-black transition duration-300 ease-in-out"
-                    }
-                  >
-                    Create Patient
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/All-patients"
-                    className={({ isActive }) =>
-                      isActive
-                        ? `${activeClassName} block text-white hover:text-black transition duration-300 ease-in-out`
-                        : "block text-white hover:text-black transition duration-300 ease-in-out"
-                    }
-                  >
-                    Manage Patients
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/dashboard"
-                    className={({ isActive }) =>
-                      isActive
-                        ? `${activeClassName} block text-white hover:text-black transition duration-300 ease-in-out`
-                        : "block text-white hover:text-black transition duration-300 ease-in-out"
-                    }
-                  >
-                    Dashboard
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/all-reports"
-                    className={({ isActive }) =>
-                      isActive
-                        ? `${activeClassName} text-white hover:text-black transition duration-300 ease-in-out`
-                        : "text-white hover:text-black transition duration-300 ease-in-out"
-                    }
-                  >
-                    All Reports
-                  </NavLink>
-                </li>
-                <li>
-                  <button
-                    onClick={handleLogout}
-                    className="text-white hover:text-black transition duration-300 ease-in-out"
-                  >
-                    Logout
-                  </button>
-                </li>
-              </>
-            )}
-          </ul>
-        </div>
-      </div>
-      {isOpen && (
-        <div className="md:hidden bg-blue-800 shadow-sm">
-          <ul className="py-2 px-4 space-y-2">
-            <li>
-              <NavLink
-                to="/"
-                className={({ isActive }) =>
-                  isActive
-                    ? `${activeClassName} block text-white hover:text-black transition duration-300 ease-in-out`
-                    : "block text-white hover:text-black transition duration-300 ease-in-out"
-                }
-              >
-                Home
-              </NavLink>
-            </li>
-            {!isAuthenticated && (
-              <>
-                <li>
-                  <NavLink
-                    to="/login"
-                    className={({ isActive }) =>
-                      isActive
-                        ? `${activeClassName} block text-white hover:text-black transition duration-300 ease-in-out`
-                        : "block text-white hover:text-black transition duration-300 ease-in-out"
-                    }
-                  >
-                    Login
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/signup"
-                    className={({ isActive }) =>
-                      isActive
-                        ? `${activeClassName} block text-white hover:text-black transition duration-300 ease-in-out`
-                        : "block text-white hover:text-black transition duration-300 ease-in-out"
-                    }
-                  >
-                    Signup
-                  </NavLink>
-                </li>
-              </>
-            )}
-            {isAuthenticated && userRole === 0 && (
-              <>
-                <li>
-                  <NavLink
-                    to="/profile"
-                    className={({ isActive }) =>
-                      isActive
-                        ? `${activeClassName} block text-white hover:text-black transition duration-300 ease-in-out`
-                        : "block text-white hover:text-black transition duration-300 ease-in-out"
-                    }
-                  >
-                    Profile
-                  </NavLink>
-                </li>
-                <li>
-                  <button
-                    onClick={handleLogout}
-                    className="block text-white hover:text-black transition duration-300 ease-in-out"
-                  >
-                    Logout
-                  </button>
-                </li>
-              </>
-            )}
-            {isAuthenticated && userRole === 1 && (
-              <>
-                <li>
-                  <NavLink
-                    to="/create-test"
-                    className={({ isActive }) =>
-                      isActive
-                        ? `${activeClassName} block text-white hover:text-black transition duration-300 ease-in-out`
-                        : "block text-white hover:text-black transition duration-300 ease-in-out"
-                    }
-                  >
-                    Create Test
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/all-tests"
-                    className={({ isActive }) =>
-                      isActive
-                        ? `${activeClassName} text-white hover:text-black transition duration-300 ease-in-out`
-                        : "text-white hover:text-black transition duration-300 ease-in-out"
-                    }
-                  >
-                   Manage Tests
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/create-patient"
-                    className={({ isActive }) =>
-                      isActive
-                        ? `${activeClassName} block text-white hover:text-black transition duration-300 ease-in-out`
-                        : "block text-white hover:text-black transition duration-300 ease-in-out"
-                    }
-                  >
-                    Create Patient
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/All-patients"
-                    className={({ isActive }) =>
-                      isActive
-                        ? `${activeClassName} block text-white hover:text-black transition duration-300 ease-in-out`
-                        : "block text-white hover:text-black transition duration-300 ease-in-out"
-                    }
-                  >
-                    Manage Patients
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/dashboard"
-                    className={({ isActive }) =>
-                      isActive
-                        ? `${activeClassName} block text-white hover:text-black transition duration-300 ease-in-out`
-                        : "block text-white hover:text-black transition duration-300 ease-in-out"
-                    }
-                  >
-                    Dashboard
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/all-reports"
-                    className={({ isActive }) =>
-                      isActive
-                        ? `${activeClassName} block text-white hover:text-black transition duration-300 ease-in-out`
-                        : "block text-white hover:text-black transition duration-300 ease-in-out"
-                    }
-                  >
-                   All Reports
-                  </NavLink>
-                </li>
-                <li>
-                  <button
-                    onClick={handleLogout}
-                    className="block text-white hover:text-black transition duration-300 ease-in-out"
-                  >
-                    Logout
-                  </button>
-                </li>
-              </>
-            )}
-          </ul>
-        </div>
-      )}
-    </nav>
+                {navItems.map((link, index) => (
+                  <div className="overflow-hidden" key={index}>
+                    <MobileNavLink
+                      title={link.label}
+                      href={link.to}
+                    />
+                  </div>
+                ))}
+                {isAuthenticated && (
+                  <div className="overflow-hidden">
+                    <MobileNavLink
+                      title="Logout"
+                      href="/login"
+                      onClick={handleLogout}
+                    />
+                  </div>
+                )}
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
   );
 };
 
